@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Page</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            overflow: hidden;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            animation: flicker 1.5s infinite alternate;
+        }
+        p {
+            font-size: 1.2em;
+            animation: flicker 2s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        @keyframes scanline {
+            0% { top: -100px; }
+            100% { top: 110%; }
+        }
+        .scanline {
+            position: absolute;
+            top: -100px;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: scanline 2s linear infinite;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+        .matrix {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: .15em solid #0f0;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: typing 3.5s steps(40, end), flicker-caret 0.75s step-end infinite;
+        }
+        @keyframes flicker-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0f0; }
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            p {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="typewriter">
+            <h1 id="access-granted">Access Granted</h1>
+        </div>
+        <p id="welcome-message">Welcome to the system, Aktor Iblis.</p>
+        <p id="team-message">Team CLAY</p>
+    </div>
+    <div class="scanline"></div>
+    <div class="footer">&copy; 2024 Aktor Iblis. All rights reserved.</div>
+    <canvas class="matrix"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="aktor.js"></script>
+</body>
+</html>
